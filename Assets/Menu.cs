@@ -27,12 +27,13 @@ public class Menu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         var power = InputControl.getPower();
-        if (power.magnitude < 0.01)
+        if (Mathf.Abs( power.y) < 0.5)
         {
             state = CursorState.Ready;
         }
-        if (power.magnitude > 0.9)
+        if (Mathf.Abs( power.y) > 0.9)
         {
             var inc = power.y > 0 ? -1 : 1;
             if (state == CursorState.Ready)

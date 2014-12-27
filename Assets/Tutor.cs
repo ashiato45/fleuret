@@ -98,8 +98,8 @@ Fleuretをお楽しみください。";
             var tipRad = swords[0].tip.transform.localScale.x / 2;
             var bodyRad = swords[0].body.transform.localScale.x / 2;
             var t0 = swords[0].tip.transform.position.ProjectPlane();
-            var t1 = swords[1].tip.transform.position.ProjectPlane();
-            var b0 = swords[0].body.transform.position.ProjectPlane();
+            //var t1 = swords[1].tip.transform.position.ProjectPlane();
+            //var b0 = swords[0].body.transform.position.ProjectPlane();
             var b1 = swords[1].body.transform.position.ProjectPlane();
 
             if ((t0 - b1).magnitude < tipRad + bodyRad)
@@ -137,7 +137,7 @@ Fleuretをお楽しみください。";
     void UpdateBattle()
     {
         var tipRad = swords[0].tip.transform.localScale.x / 2;
-        var bodyRad = swords[0].body.transform.localScale.x / 2;
+        //var bodyRad = swords[0].body.transform.localScale.x / 2;
         var barWidth = swords[0].bar.transform.localScale.x;
 
         var hs = HittingState.None;
@@ -305,16 +305,16 @@ Fleuretをお楽しみください。";
     void WallStop()
     {
         var tipRad = swords[0].tip.transform.localScale.x / 2;
-        var bodyRad = swords[0].body.transform.localScale.x / 2;
-        var barWidth = swords[0].bar.transform.localScale.x;
+        //var bodyRad = swords[0].body.transform.localScale.x / 2;
+        //var barWidth = swords[0].bar.transform.localScale.x;
 
-        var hs = HittingState.None;
+        //var hs = HittingState.None;
         var t0 = swords[0].tip.transform.position.ProjectPlane();
         var t1 = swords[1].tip.transform.position.ProjectPlane();
-        var b0 = swords[0].body.transform.position.ProjectPlane();
-        var b1 = swords[1].body.transform.position.ProjectPlane();
-        var tip0tobar1 = GetPointToSegmentInfo(b1, t1, t0);
-        var tip1tobar0 = GetPointToSegmentInfo(b0, t0, t1);
+        //var b0 = swords[0].body.transform.position.ProjectPlane();
+        //var b1 = swords[1].body.transform.position.ProjectPlane();
+        //var tip0tobar1 = GetPointToSegmentInfo(b1, t1, t0);
+        //var tip1tobar0 = GetPointToSegmentInfo(b0, t0, t1);
 
         // wall stop
         var w = Camera.main.aspect * Camera.main.orthographicSize;

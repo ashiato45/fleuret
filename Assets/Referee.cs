@@ -67,7 +67,17 @@ public class Referee : MonoBehaviour {
         swords[0].SetController(nextSwordControlller[0]);
         swords[1].SetController(nextSwordControlller[1]);
 	}
-	
+
+    void Explode(Vector3 v_, float size_)
+    {
+        size_ *= 1f;
+        GameObject go = Instantiate(Resources.Load("Explosions/Flash02"), v_, Quaternion.identity) as GameObject;
+        //go.particleSystem.startSpeed = size_;
+        go.particleSystem.startSize = size_;
+        Destroy(go, 3);
+
+    }
+
 	// Update is called once per frame
 	void Update () {
         if(state == GameState.Count)
@@ -161,6 +171,8 @@ public class Referee : MonoBehaviour {
             f("tip0 is touching bar1");
         }
 
+        float relSpeed = 0f;
+
         // reflection
         switch (hs)
         {
@@ -169,6 +181,7 @@ public class Referee : MonoBehaviour {
                     var relVel = swords[0].velocity.Copy();
                     swords[0].velocity = Vector2.zero;
                     swords[1].velocity -= relVel;
+                    relSpeed = swords[1].velocity.magnitude;
                     swords[0].velocity = swords[1].velocity;
                     swords[1].velocity = Vector2.zero;
                     swords[0].velocity += relVel;
@@ -184,6 +197,7 @@ public class Referee : MonoBehaviour {
                     var acting = swords[0].velocity.Dot(n);
                     swords[1].velocity += n * (acting);
                     swords[0].velocity -= n * (acting);
+                    relSpeed = acting;
                     swords[0].velocity += relVel;
                     swords[1].velocity += relVel;
                 }
@@ -197,6 +211,7 @@ public class Referee : MonoBehaviour {
                     var acting = swords[1].velocity.Dot(n);
                     swords[0].velocity += n * (acting);
                     swords[1].velocity -= n * (acting);
+                    relSpeed = acting;
                     swords[1].velocity += relVel;
                     swords[0].velocity += relVel;
                 }
@@ -290,6 +305,20 @@ public class Referee : MonoBehaviour {
                 swords[i].tip.transform.position = t.Embed();
                 swords[i].velocity = Vector2.zero;
             }
+        }
+
+        // explode
+        switch (hs)
+        {
+            case HittingState.TipToTip:
+                Explode(((t0 + t1) / 2).Embed(), relSpeed);
+                break;
+            case HittingState.Tip0ToBar1:
+                Explode(tip0tobar1.nearest.Embed(), relSpeed);
+                break;
+            case HittingState.Tip1ToBar0:
+                Explode(tip1tobar0.nearest.Embed(), relSpeed);
+                break;
         }
 
         // gameset?

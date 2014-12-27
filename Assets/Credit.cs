@@ -17,11 +17,11 @@ public class Credit : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	    var power = InputControl.getPower();
-        if (power.magnitude < 0.01)
+        if (Mathf.Abs( power.x) < 0.1)
         {
             state = CursorState.Ready;
         }
-        if (power.magnitude > 0.9)
+        if (Mathf.Abs(power.x) > 0.9)
         {
             var inc = power.x > 0 ? -1 : 1;
             if (state == CursorState.Ready)
