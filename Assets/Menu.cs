@@ -64,7 +64,7 @@ public class Menu : MonoBehaviour {
             {
                 case 0:
                     Referee.nextSwordControlller[0] = ESwordControllers.Arrow;
-                    Referee.nextSwordControlller[1] = ESwordControllers.Straight;
+                    Referee.nextSwordControlller[1] = ESwordControllers.Percentage;
                     Application.LoadLevel("main_2");
                     break;
                 case 1:

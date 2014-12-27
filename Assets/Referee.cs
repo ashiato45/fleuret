@@ -171,9 +171,29 @@ public class Referee : MonoBehaviour {
             f("tip0 is touching bar1");
         }
 
-        float relSpeed = 0f;
+        // Tell strategy
+        swords[0].lastHit = Sword.ELastHit.None;
+        swords[1].lastHit = Sword.ELastHit.None;
+        switch(hs){
+            case HittingState.TipToTip:
+                swords[0].lastHit = Sword.ELastHit.TipToTip;
+                swords[1].lastHit = Sword.ELastHit.TipToTip;
+                break;
+            case HittingState.Tip0ToBar1:
+                swords[0].lastHit = Sword.ELastHit.Tip0ToBar1;
+                swords[1].lastHit = Sword.ELastHit.Tip0ToBar1;
+                break;
+            case HittingState.Tip1ToBar0:
+                swords[0].lastHit = Sword.ELastHit.Tip1ToBar0;
+                swords[1].lastHit = Sword.ELastHit.Tip1ToBar0;
+                break;
+
+        }
 
         // reflection
+
+        float relSpeed = 0f;
+
         switch (hs)
         {
             case HittingState.TipToTip:

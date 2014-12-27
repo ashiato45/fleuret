@@ -124,7 +124,7 @@ public class InputControl
         power.y = Input.GetAxis("Vertical");
 
         power = normalizeStick(power);
-        UnityEngine.Debug.Log("L:" + power.x.ToString() + "," + power.y.ToString() + "," + power.magnitude);
+        //UnityEngine.Debug.Log("L:" + power.x.ToString() + "," + power.y.ToString() + "," + power.magnitude);
 
 
         //power = power / Mathf.Sqrt(2);
@@ -138,7 +138,7 @@ public class InputControl
         power.x = Input.GetAxis("Horizontal2");
         power.y = Input.GetAxis("Vertical2");
         power = normalizeStick(power);
-        UnityEngine.Debug.Log("R:" + power.x.ToString() + "," + power.y.ToString() + "," + power.magnitude);
+        //UnityEngine.Debug.Log("R:" + power.x.ToString() + "," + power.y.ToString() + "," + power.magnitude);
 
         //power = power / Mathf.Sqrt(2);
 
