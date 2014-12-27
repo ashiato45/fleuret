@@ -136,7 +136,7 @@ public class Referee : MonoBehaviour {
         System.Action<string> f = (s) =>
         {
             //return;
-            UnityEngine.Debug.Log(Time.frameCount.ToString() + ":" + s);
+            //UnityEngine.Debug.Log(Time.frameCount.ToString() + ":" + s);
         };
 
         if ((swords[0].tip.transform.position - swords[1].tip.transform.position).magnitude <= tipRad * 2)

@@ -2,6 +2,16 @@
 using System.Collections;
 using ExtensionMethod;
 
+public enum ESwordControllers
+{
+    Arrow,
+    WASD,
+    Straight,
+    NoMove,
+}
+
+
+
 public class Sword : MonoBehaviour {
     public GameObject tip;
     public GameObject body;
@@ -13,6 +23,7 @@ public class Sword : MonoBehaviour {
     public int initLength;
     public ESwordControllers controllerID;
     public bool frozen = false;
+
 
 	// Use this for initialization
 	void Start () {
@@ -55,6 +66,13 @@ public class Sword : MonoBehaviour {
                     return (eb - s.tip.transform.position.ProjectPlane()).normalized * Constants.powerRatio;
                 };
                 break;
+            case ESwordControllers.NoMove:
+                controller = (s) =>
+                {
+                    return Vector2.zero;
+                };
+                break;
+                
         }
 
     }

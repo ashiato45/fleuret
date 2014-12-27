@@ -56,9 +56,6 @@ public class Menu : MonoBehaviour {
             }
         }
 
-        cursor.transform.position = items[pos].transform.position;
-        description.text = messages[pos];
-
 
         if (InputControl.getOK())
         {
@@ -74,6 +71,9 @@ public class Menu : MonoBehaviour {
                     Referee.nextSwordControlller[1] = ESwordControllers.WASD;
                     Application.LoadLevel("main_2");
                     break;
+                case 2:
+                    Application.LoadLevel("tutorial");
+                    break;
                 case 3:
                     Application.LoadLevel("credit");
                     break;
@@ -82,5 +82,15 @@ public class Menu : MonoBehaviour {
                     break;
             }
         }
+
+        if (InputControl.getCancel())
+        {
+            pos = 4;
+        }
+
+        cursor.transform.position = items[pos].transform.position;
+        description.text = messages[pos];
+
+
 	}
 }

@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class IPAPageSender : MonoBehaviour {
     public UnityEngine.UI.Text text;
     string content;
-    string[] contents;
+    List<string> contents;
     int page = 0;
 	// Use this for initialization
 	void Start () {
@@ -127,21 +128,26 @@ Article 5 (Governing Law)
 2.This Agreement shall be construed under the laws of Japan.
 
 ";
-        contents = new string[content.Length / 1200 + 1];
-        for (int i = 0; i < contents.Length; i++)
+        contents = new List<string>();
+        contents.Add("このソフトウェア(Fleuret)は情報処理推進機構(IPA)が「IPAフォントライセンスv1.0」で頒布している「IPAゴシックP」を使用しています。以下、そのライセンスを示します。[決定]ボタンでページを送ります。");
+        bool flag = false;
+        while (!flag)
         {
+            string cut;
             if (content.Length > 1200)
             {
-                contents[i] = content.Substring(0, 1200);
+                cut = content.Substring(0, 1200);
                 content = content.Remove(0, 1200);
-
             }
             else
             {
-                contents[i] = content;
+                cut = content;
+                flag = true;
             }
+            contents.Add(cut);
 
         }
+        UnityEngine.Debug.Log(contents[0].Substring(0, 100));
 	}
 	
 	// Update is called once per frame
@@ -149,14 +155,15 @@ Article 5 (Governing Law)
         if (InputControl.getOK())
         {
             page++;
-            if (page < contents.Length)
-            {
-                text.text = contents[page];
-            }
-            else
-            {
-                Application.LoadLevel("credit");
-            }
         }
+        if (page < contents.Count)
+        {
+            text.text = contents[page];
+        }
+        else
+        {
+            Application.LoadLevel("credit");
+        }
+
 	}
 }

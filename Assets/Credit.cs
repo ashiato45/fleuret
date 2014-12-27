@@ -60,5 +60,10 @@ public class Credit : MonoBehaviour {
             }
         }
 
+        if (InputControl.getCancel())
+        {
+            Application.LoadLevel("title");
+        }
+
 	}
 }

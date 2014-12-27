@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum InputDevice
+{
+    Keyboard,
+    Joypad,
+}
+
 public class InputControl
 {
     void Update()
@@ -12,6 +18,9 @@ public class InputControl
     {
 
     }
+
+    public static InputDevice inputDevice = InputDevice.Keyboard;
+    
 
     public static Vector2 getPower()
     {
