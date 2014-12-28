@@ -82,6 +82,8 @@ public class Menu : MonoBehaviour {
                     Referee.nextSwordControlller[1] = ESwordControllers.Percentage;
                     Referee.state = GameState.Announce;
                     Referee.mode = BattleMode.Challenge;
+                    //Ttemp
+                    Referee.record = true;
                     Application.LoadLevel("main_2");
                     break;
                 case 1:

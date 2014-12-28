@@ -36,6 +36,9 @@ public class Sword : MonoBehaviour {
     public ESwordControllers controllerID;
     public bool frozen = false;
     public ELastHit lastHit = ELastHit.None;
+    public bool record = false;
+    public string recordName;
+    public System.IO.StreamWriter sw;
 
     public void SetInitialPosition()
     {
@@ -55,6 +58,7 @@ public class Sword : MonoBehaviour {
         var barColor = bar.GetComponent<ColorSet>();
         barColor.color = color;
 
+
         SetInitialPosition();
 
         //SetController(controllerID);
@@ -69,32 +73,32 @@ public class Sword : MonoBehaviour {
                 UnityEngine.Debug.Log("SET GEN");
                 controller = (s) =>
                 {
-                    return InputControl.getPower() * Constants.powerRatio;
+                    return InputControl.getPower();
                 };
                 break;
             case ESwordControllers.Arrow:
                 UnityEngine.Debug.Log("SET ARROW");
                 controller = (s) =>
                 {
-                    return InputControl.getPowerArrow() * Constants.powerRatio;
+                    return InputControl.getPowerArrow();
                 };
                 break;
             case ESwordControllers.WASD:
                 controller = (s) =>
                 {
-                    return InputControl.getPowerWASD() * Constants.powerRatio;
+                    return InputControl.getPowerWASD();
                 };
                 break;
             case ESwordControllers.LStick:
                 controller = (s) =>
                 {
-                    return InputControl.getPowerStick() * Constants.powerRatio;
+                    return InputControl.getPowerStick();
                 };
                 break;
             case ESwordControllers.RStick:
                 controller = (s) =>
                 {
-                    return InputControl.getPowerStickRight() * Constants.powerRatio;
+                    return InputControl.getPowerStickRight();
                 };
                 break;
             case ESwordControllers.Straight:
@@ -102,7 +106,7 @@ public class Sword : MonoBehaviour {
                 {
                     var e = s.opponent.GetComponent<Sword>();
                     var eb = e.transform.position.ProjectPlane();
-                    return (eb - s.tip.transform.position.ProjectPlane()).normalized * Constants.powerRatio;
+                    return (eb - s.tip.transform.position.ProjectPlane()).normalized;
                 };
                 break;
             case ESwordControllers.NoMove:
@@ -179,7 +183,7 @@ public class Sword : MonoBehaviour {
                             break;
                     }
                     target += (new Vector2(Mathf.Cos(blurDirection), Mathf.Sin(blurDirection)))*blur;
-                    return (target - tip.transform.position.ProjectPlane()).normalized * Constants.powerRatio;
+                    return (target - tip.transform.position.ProjectPlane()).normalized;
                 };
                 break;
         }
@@ -190,10 +194,15 @@ public class Sword : MonoBehaviour {
 	void Update () {
         if (frozen == false)
         {
-            velocity += controller(this);
+            var c = controller(this);
+            velocity += c * Constants.powerRatio;
 
             tip.transform.position += new Vector3(velocity.x, velocity.y, 0);
 
+            if (record)
+            {
+                sw.WriteLine(c.x.ToString() + "*" + c.y.ToString());
+            }
         }
         this.Fix();
 

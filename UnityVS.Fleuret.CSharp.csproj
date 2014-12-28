@@ -64,11 +64,22 @@
     <Compile Include="Assets\InputNotifier.cs" />
     <Compile Include="Assets\Menu.cs" />
     <Compile Include="Assets\Referee.cs" />
+    <Compile Include="Assets\ReplayPlayer.cs" />
     <Compile Include="Assets\SaveDataManager.cs" />
     <Compile Include="Assets\SimpleParticlePack\Scripts\ParticleTester.cs" />
     <Compile Include="Assets\Sword.cs" />
     <Compile Include="Assets\Tutor.cs" />
     <Compile Include="Assets\Versus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Resources\blue0.txt" />
+    <None Include="Assets\Resources\blue1.txt" />
+    <None Include="Assets\Resources\blue2.txt" />
+    <None Include="Assets\Resources\blue3.txt" />
+    <None Include="Assets\Resources\red0.txt" />
+    <None Include="Assets\Resources\red1.txt" />
+    <None Include="Assets\Resources\red2.txt" />
+    <None Include="Assets\Resources\red3.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

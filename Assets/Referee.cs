@@ -54,12 +54,16 @@ public class Referee : MonoBehaviour {
     int round;
     public UnityEngine.UI.Text roundBoard;
     public static BattleMode mode;
+    public static bool record = false;
 
 
     public static ESwordControllers[] nextSwordControlller = { ESwordControllers.General, ESwordControllers.WASD };
 
     void InitBattle()
     {
+        swords[0].record = record;
+        swords[1].record = record;
+
         redWin.SetActive(false);
         blueWin.SetActive(false);
 
@@ -86,6 +90,13 @@ public class Referee : MonoBehaviour {
         InitBattle();
         round = 1;
         roundBoard.text = "";
+
+        if (record)
+        {
+            swords[0].sw = new System.IO.StreamWriter(swords[0].recordName);
+            swords[1].sw = new System.IO.StreamWriter(swords[1].recordName);
+
+        }
 
 	}
 
@@ -153,6 +164,14 @@ public class Referee : MonoBehaviour {
 
         if ((state == GameState.Gameset0 || state == GameState.Gameset1) && InputControl.getOK())
         {
+            //record
+            if (record)
+            {
+                swords[0].sw.Close();
+                swords[1].sw.Close();
+            }
+            //record
+
             if (mode == BattleMode.Battle)
             {
                 Application.LoadLevel("title");
