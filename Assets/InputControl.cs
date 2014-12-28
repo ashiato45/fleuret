@@ -35,6 +35,7 @@ public class InputControl
         {
             power = getPowerArrow();
         }
+        UnityEngine.Debug.Log("GEN" + power.ToString());
 
         return power;
     }
@@ -59,7 +60,7 @@ public class InputControl
             power -= Vector2.up;
         }
         power = power.normalized;
-        //UnityEngine.Debug.Log(power);
+        UnityEngine.Debug.Log("AR" + power.ToString());
 
         return power;
     }

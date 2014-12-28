@@ -56,7 +56,7 @@ public class Referee : MonoBehaviour {
     public static BattleMode mode;
 
 
-    public static ESwordControllers[] nextSwordControlller = { ESwordControllers.Arrow, ESwordControllers.WASD };
+    public static ESwordControllers[] nextSwordControlller = { ESwordControllers.General, ESwordControllers.WASD };
 
     void InitBattle()
     {
@@ -74,6 +74,7 @@ public class Referee : MonoBehaviour {
         }
         //counts[2].SetActive(true);
 
+        UnityEngine.Debug.Log(nextSwordControlller[0].ToString() + "+" + nextSwordControlller[1].ToString());
         swords[0].SetController(nextSwordControlller[0]);
         swords[1].SetController(nextSwordControlller[1]);
 

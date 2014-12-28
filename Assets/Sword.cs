@@ -4,8 +4,11 @@ using ExtensionMethod;
 
 public enum ESwordControllers
 {
+    General,
     Arrow,
     WASD,
+    LStick,
+    RStick,
     NoMove,
     Straight,
     Percentage,
@@ -54,7 +57,7 @@ public class Sword : MonoBehaviour {
 
         SetInitialPosition();
 
-        SetController(controllerID);
+        //SetController(controllerID);
 	}
 
     public void SetController(ESwordControllers esc_)
@@ -62,16 +65,36 @@ public class Sword : MonoBehaviour {
         //UnityEngine.Debug.Log(controllerID);
         switch (esc_)
         {
-            case ESwordControllers.Arrow:
+            case ESwordControllers.General:
+                UnityEngine.Debug.Log("SET GEN");
                 controller = (s) =>
                 {
                     return InputControl.getPower() * Constants.powerRatio;
+                };
+                break;
+            case ESwordControllers.Arrow:
+                UnityEngine.Debug.Log("SET ARROW");
+                controller = (s) =>
+                {
+                    return InputControl.getPowerArrow() * Constants.powerRatio;
                 };
                 break;
             case ESwordControllers.WASD:
                 controller = (s) =>
                 {
                     return InputControl.getPowerWASD() * Constants.powerRatio;
+                };
+                break;
+            case ESwordControllers.LStick:
+                controller = (s) =>
+                {
+                    return InputControl.getPowerStick() * Constants.powerRatio;
+                };
+                break;
+            case ESwordControllers.RStick:
+                controller = (s) =>
+                {
+                    return InputControl.getPowerStickRight() * Constants.powerRatio;
                 };
                 break;
             case ESwordControllers.Straight:

@@ -71,7 +71,7 @@ Fleuretをお楽しみください。";
             if (InputControl.getOK())
             {
                 state = TutorialState.Move;
-                swords[0].controllerID = ESwordControllers.Arrow;
+                swords[0].controllerID = ESwordControllers.General;
                 swords[0].gameObject.SetActive(true);
                 InitializePosition();
             }

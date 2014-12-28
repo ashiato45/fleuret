@@ -78,18 +78,18 @@ public class Menu : MonoBehaviour {
             switch (pos)
             {
                 case 0:
-                    Referee.nextSwordControlller[0] = ESwordControllers.Arrow;
+                    Referee.nextSwordControlller[0] = ESwordControllers.General;
                     Referee.nextSwordControlller[1] = ESwordControllers.Percentage;
                     Referee.state = GameState.Announce;
                     Referee.mode = BattleMode.Challenge;
                     Application.LoadLevel("main_2");
                     break;
                 case 1:
-                    Referee.nextSwordControlller[0] = ESwordControllers.Arrow;
-                    Referee.nextSwordControlller[1] = ESwordControllers.WASD;
-                    Referee.state = GameState.Count;
-                    Referee.mode = BattleMode.Battle;
-                    Application.LoadLevel("main_2");
+                    //Referee.nextSwordControlller[0] = ESwordControllers.General;
+                    //Referee.nextSwordControlller[1] = ESwordControllers.WASD;
+                    //Referee.state = GameState.Count;
+                    //Referee.mode = BattleMode.Battle;
+                    Application.LoadLevel("versus");
                     break;
                 case 2:
                     Application.LoadLevel("tutorial");
