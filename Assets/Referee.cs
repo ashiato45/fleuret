@@ -16,7 +16,14 @@ public enum GameState
     Count,
     Battle,
     Gameset0,
-    Gameset1
+    Gameset1,
+    Announce,
+}
+
+public enum BattleMode
+{
+    Challenge,
+    Battle,
 }
 
 public struct PointToSegmentInfo
@@ -43,13 +50,16 @@ public class Referee : MonoBehaviour {
     public GameObject[] counts;
     float oneMinuteAfter;
     int counter;
-    GameState state;
+    public static GameState state;
+    int round;
+    public UnityEngine.UI.Text roundBoard;
+    public static BattleMode mode;
+
 
     public static ESwordControllers[] nextSwordControlller = { ESwordControllers.Arrow, ESwordControllers.WASD };
 
-	// Use this for initialization
-	void Start () {
-        state = GameState.Count;
+    void InitBattle()
+    {
         redWin.SetActive(false);
         blueWin.SetActive(false);
 
@@ -62,10 +72,20 @@ public class Referee : MonoBehaviour {
         {
             counts[i].SetActive(false);
         }
-        counts[2].SetActive(true);
+        //counts[2].SetActive(true);
 
         swords[0].SetController(nextSwordControlller[0]);
         swords[1].SetController(nextSwordControlller[1]);
+
+    }
+
+	// Use this for initialization
+	void Start () {
+        //state = GameState.Count;
+        InitBattle();
+        round = 1;
+        roundBoard.text = "";
+
 	}
 
     void Explode(Vector3 v_, float size_)
@@ -80,8 +100,27 @@ public class Referee : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if(state == GameState.Count)
+        if (state == GameState.Announce)
         {
+            InitBattle();
+            swords[0].SetInitialPosition();
+            swords[1].SetInitialPosition();
+            roundBoard.text = string.Format("Round {0}", round);
+            if (InputControl.getOK())
+            {
+                roundBoard.text = "";
+                state = GameState.Count;
+                counts[counter].SetActive(true);
+            }
+        }
+        else if(state == GameState.Count)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                counts[i].SetActive(false);
+            }
+            counts[counter].SetActive(true);
+
             if (Time.time >= oneMinuteAfter)
             {
                 oneMinuteAfter = Time.time + 1f;
@@ -95,14 +134,6 @@ public class Referee : MonoBehaviour {
                     {
                         counts[i].SetActive(false);
                     }
-                }
-                else
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        counts[i].SetActive(false);
-                    }
-                    counts[counter].SetActive(true);
                 }
             }
         }
@@ -121,7 +152,32 @@ public class Referee : MonoBehaviour {
 
         if ((state == GameState.Gameset0 || state == GameState.Gameset1) && InputControl.getOK())
         {
-            Application.LoadLevel("title");
+            if (mode == BattleMode.Battle)
+            {
+                Application.LoadLevel("title");
+            }
+            else if (mode == BattleMode.Challenge)
+            {
+                if (state == GameState.Gameset0)
+                {
+                    state = GameState.Announce;
+                    round++;
+                    if (round >= 11)
+                    {
+                        // Congraturation!
+                        var n = SaveDataManager.data.winCount;
+                        n++;
+                        SaveDataManager.data.winCount = n;
+                        SaveDataManager.Save();
+                        Application.LoadLevel("title");
+                    }
+                }
+                else if (state == GameState.Gameset1)
+                {
+                    Application.LoadLevel("title");
+                }
+
+            }
         }
 
 	}

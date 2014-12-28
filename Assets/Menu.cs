@@ -17,16 +17,31 @@ public class Menu : MonoBehaviour {
     int remaining;
     CursorState state;
     public static int pos = 0;
+    public GameObject crown;
 
 	// Use this for initialization
 	void Start () {
+        SaveDataManager.Load();
+
         state = CursorState.Ready;
 
         cursor.transform.position = items[pos].transform.position;
+
+        var win = SaveDataManager.data.winCount;
+        if (win == 0)
+        {
+            crown.SetActive(false);
+        }
+        else
+        {
+            crown.SetActive(true);
+        }
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        crown.transform.position = items[0].transform.position + new Vector3(0, crown.transform.localScale.y, 0);
 
         var power = InputControl.getPower();
         if (Mathf.Abs( power.y) < 0.5)
@@ -65,11 +80,15 @@ public class Menu : MonoBehaviour {
                 case 0:
                     Referee.nextSwordControlller[0] = ESwordControllers.Arrow;
                     Referee.nextSwordControlller[1] = ESwordControllers.Percentage;
+                    Referee.state = GameState.Announce;
+                    Referee.mode = BattleMode.Challenge;
                     Application.LoadLevel("main_2");
                     break;
                 case 1:
                     Referee.nextSwordControlller[0] = ESwordControllers.Arrow;
                     Referee.nextSwordControlller[1] = ESwordControllers.WASD;
+                    Referee.state = GameState.Count;
+                    Referee.mode = BattleMode.Battle;
                     Application.LoadLevel("main_2");
                     break;
                 case 2:

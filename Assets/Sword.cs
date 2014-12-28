@@ -34,6 +34,14 @@ public class Sword : MonoBehaviour {
     public bool frozen = false;
     public ELastHit lastHit = ELastHit.None;
 
+    public void SetInitialPosition()
+    {
+        tip.transform.localPosition = body.transform.localPosition;
+        tip.transform.Translate(0, initLength, 0);
+
+        velocity = Vector2.zero;
+    }
+
 	// Use this for initialization
 	void Start () {
         velocity = new Vector2();
@@ -44,8 +52,7 @@ public class Sword : MonoBehaviour {
         var barColor = bar.GetComponent<ColorSet>();
         barColor.color = color;
 
-        tip.transform.localPosition = body.transform.localPosition;
-        tip.transform.Translate(0, initLength, 0);
+        SetInitialPosition();
 
         SetController(controllerID);
 	}
@@ -129,7 +136,7 @@ public class Sword : MonoBehaviour {
 
                         blur = Random.value * maxBlur;
                         blurDirection = Random.value * Mathf.PI * 2f;
-                        UnityEngine.Debug.Log("Strategy:" + strategy.ToString());
+                        //UnityEngine.Debug.Log("Strategy:" + strategy.ToString());
                     }
 
                     var e = s.opponent.GetComponent<Sword>();

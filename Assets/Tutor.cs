@@ -55,10 +55,12 @@ Fleuretをお楽しみください。";
 
     void InitializePosition()
     {
-        swords[0].tip.transform.position = initPos[0];
-        swords[0].velocity = Vector2.zero;
-        swords[1].tip.transform.position = initPos[1];
-        swords[1].velocity = Vector2.zero;
+        swords[0].SetInitialPosition();
+        swords[1].SetInitialPosition();
+        //swords[0].tip.transform.position = initPos[0];
+        //swords[0].velocity = Vector2.zero;
+        //swords[1].tip.transform.position = initPos[1];
+        //swords[1].velocity = Vector2.zero;
     }
 	
 	// Update is called once per frame
