@@ -87,6 +87,10 @@ public class Versus : MonoBehaviour {
             Referee.state = GameState.Count;
             Application.LoadLevel("main_2");
         }
+        if (InputControl.getCancel())
+        {
+            Application.LoadLevel("title");
+        }
 
         //show
         for (int i = 0; i < 2; i++)
