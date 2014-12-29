@@ -29,7 +29,16 @@ public class InputControl
 
         if (Input.GetJoystickNames().Length > 0)
         {
-            power = getPowerStick();
+            var s = getPowerStick();
+            var k = getPowerArrow();
+            if (s.magnitude > 0.1)
+            {
+                power = getPowerStick();
+            }
+            else
+            {
+                power = getPowerArrow();
+            }
         }
         else
         {
@@ -119,6 +128,7 @@ public class InputControl
     public static Vector2 getPowerStick()
     {
         Vector2 power = Vector2.zero;
+
         power.x = Input.GetAxis("Horizontal");
         power.y = Input.GetAxis("Vertical");
 
@@ -150,7 +160,7 @@ public class InputControl
         if (Input.GetJoystickNames().Length > 0)
         {
             
-            return Input.GetButtonDown("Fire1");
+            return (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.Z));
         }
         
         return Input.GetKeyDown(KeyCode.Z);
@@ -161,7 +171,7 @@ public class InputControl
     {
         if (Input.GetJoystickNames().Length > 0)
         {
-            return Input.GetButtonDown("Fire2");
+            return (Input.GetButtonDown("Fire2") || Input.GetKey(KeyCode.X));
         }
         return Input.GetKeyUp(KeyCode.X);
     }

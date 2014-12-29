@@ -54,12 +54,18 @@ public class Referee : MonoBehaviour {
     public static BattleMode mode;
     public static bool record = false;
     public HitSound sound;
-
+    bool winPlayOnce = false;
+    public GameObject fallingStar;
 
     public static ESwordControllers[] nextSwordControlller = { ESwordControllers.General, ESwordControllers.WASD };
 
     void InitBattle()
     {
+        fallingStar.SetActive(false);
+        fallingStar.GetComponent<ParticleSystem>().enableEmission = false;
+
+        winPlayOnce = false;
+
         swords[0].record = record;
         swords[1].record = record;
 
@@ -320,21 +326,6 @@ public class Referee : MonoBehaviour {
         }
 
 
-        // sound
-        if (hs == HittingState.Tip0ToBar1 || hs == HittingState.Tip1ToBar0 || hs == HittingState.TipToTip)
-        {
-            //UnityEngine.Debug.Log(relSpeed);
-            if (relSpeed > 0.1)
-            {
-                sound.strong.Play();
-            }
-            else
-            {
-                sound.weak.Play();
-            }
-        }
-
-
         // embedding recover
         if (hs == HittingState.Tip0ToBar1)
         {
@@ -433,18 +424,53 @@ public class Referee : MonoBehaviour {
         }
 
         // gameset?
+        var gameset = false;
         if ((t0 - b1).magnitude < tipRad + bodyRad)
         {
             state = GameState.Gameset0;
             swords[0].frozen = true;
             swords[1].frozen = true;
+            gameset = true;
+
+            fallingStar.SetActive(true);
+            fallingStar.GetComponent<ParticleSystem>().enableEmission = true;
         }
         else if ((t1 - b0).magnitude < tipRad + bodyRad)
         {
             state = GameState.Gameset1;
             swords[0].frozen = true;
             swords[1].frozen = true;
+            //fallingStar.startColor = swords[1].color;
+            gameset = true;
+            if (mode == BattleMode.Battle)
+            {
+                fallingStar.SetActive(true);
+                fallingStar.GetComponent<ParticleSystem>().enableEmission = true;
+            }
+
         }
+
+
+        // sound
+        if (hs == HittingState.Tip0ToBar1 || hs == HittingState.Tip1ToBar0 || hs == HittingState.TipToTip)
+        {
+            //UnityEngine.Debug.Log(relSpeed);
+            if (relSpeed > 0.1)
+            {
+                sound.strong.Play();
+            }
+            else
+            {
+                sound.weak.Play();
+            }
+        }
+
+        if (gameset && !winPlayOnce)
+        {
+            winPlayOnce = true;
+            sound.win.Play();
+        }
+
 
         // fix
 
