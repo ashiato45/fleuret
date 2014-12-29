@@ -83,7 +83,7 @@ public class Menu : MonoBehaviour {
                     Referee.state = GameState.Announce;
                     Referee.mode = BattleMode.Challenge;
                     //Ttemp
-                    Referee.record = true;
+                    Referee.record = false;
                     Application.LoadLevel("main_2");
                     break;
                 case 1:

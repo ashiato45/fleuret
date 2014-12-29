@@ -43,8 +43,6 @@ public struct PointToSegmentInfo
 
 public class Referee : MonoBehaviour {
     public Sword[] swords;
-    public GameObject dcursor1;
-    public GameObject dcursor2;
     public GameObject redWin;
     public GameObject blueWin;
     public GameObject[] counts;
@@ -55,6 +53,7 @@ public class Referee : MonoBehaviour {
     public UnityEngine.UI.Text roundBoard;
     public static BattleMode mode;
     public static bool record = false;
+    public HitSound sound;
 
 
     public static ESwordControllers[] nextSwordControlller = { ESwordControllers.General, ESwordControllers.WASD };
@@ -216,8 +215,8 @@ public class Referee : MonoBehaviour {
         var tip0tobar1 = GetPointToSegmentInfo(b1, t1, t0);
         var tip1tobar0 = GetPointToSegmentInfo(b0, t0, t1);
 
-        dcursor1.transform.position = tip0tobar1.nearest;
-        dcursor2.transform.position = tip1tobar0.nearest;
+        //dcursor1.transform.position = tip0tobar1.nearest;
+        //dcursor2.transform.position = tip1tobar0.nearest;
 
         System.Action<string> f = (s) =>
         {
@@ -319,6 +318,22 @@ public class Referee : MonoBehaviour {
                 }
                 break;
         }
+
+
+        // sound
+        if (hs == HittingState.Tip0ToBar1 || hs == HittingState.Tip1ToBar0 || hs == HittingState.TipToTip)
+        {
+            //UnityEngine.Debug.Log(relSpeed);
+            if (relSpeed > 0.1)
+            {
+                sound.strong.Play();
+            }
+            else
+            {
+                sound.weak.Play();
+            }
+        }
+
 
         // embedding recover
         if (hs == HittingState.Tip0ToBar1)

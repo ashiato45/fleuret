@@ -18,6 +18,7 @@ public class Tutor : MonoBehaviour {
     string[] messages;
     public UnityEngine.UI.Text description;
     public GameObject ok;
+    public HitSound sound;
 
  	// Use this for initialization
 	void Start () {
@@ -71,8 +72,9 @@ Fleuretをお楽しみください。";
             if (InputControl.getOK())
             {
                 state = TutorialState.Move;
-                swords[0].controllerID = ESwordControllers.General;
+                //swords[0].controllerID = ESwordControllers.General;
                 swords[0].gameObject.SetActive(true);
+                swords[0].SetController(ESwordControllers.General);
                 InitializePosition();
             }
         }
@@ -84,7 +86,8 @@ Fleuretをお楽しみください。";
                 state = TutorialState.Foin;
                 InitializePosition();
                 swords[1].gameObject.SetActive(true);
-                swords[1].controllerID = ESwordControllers.NoMove;
+                //swords[1].controllerID = ESwordControllers.NoMove;
+                swords[1].SetController(ESwordControllers.NoMove);
             }
         }
         else if (state == TutorialState.Foin)
@@ -179,6 +182,9 @@ Fleuretをお楽しみください。";
         }
 
         // reflection
+        float relSpeed = 0f;
+
+
         switch (hs)
         {
             case HittingState.TipToTip:
@@ -186,6 +192,7 @@ Fleuretをお楽しみください。";
                     var relVel = swords[0].velocity.Copy();
                     swords[0].velocity = Vector2.zero;
                     swords[1].velocity -= relVel;
+                    relSpeed = swords[1].velocity.magnitude;
                     swords[0].velocity = swords[1].velocity;
                     swords[1].velocity = Vector2.zero;
                     swords[0].velocity += relVel;
@@ -201,6 +208,7 @@ Fleuretをお楽しみください。";
                     var acting = swords[0].velocity.Dot(n);
                     swords[1].velocity += n * (acting);
                     swords[0].velocity -= n * (acting);
+                    relSpeed = acting;
                     swords[0].velocity += relVel;
                     swords[1].velocity += relVel;
                 }
@@ -214,6 +222,7 @@ Fleuretをお楽しみください。";
                     var acting = swords[1].velocity.Dot(n);
                     swords[0].velocity += n * (acting);
                     swords[1].velocity -= n * (acting);
+                    relSpeed = acting;
                     swords[1].velocity += relVel;
                     swords[0].velocity += relVel;
                 }
@@ -225,6 +234,23 @@ Fleuretをお楽しみください。";
                 }
                 break;
         }
+
+        // sound
+        if (hs == HittingState.Tip0ToBar1 || hs == HittingState.Tip1ToBar0 || hs == HittingState.TipToTip)
+        {
+            //UnityEngine.Debug.Log(relSpeed);
+            if (relSpeed > 0.1)
+            {
+                sound.strong.Play();
+            }
+            else
+            {
+                sound.weak.Play();
+            }
+        }
+
+
+
 
         // embedding recover
         if (hs == HittingState.Tip0ToBar1)
@@ -274,6 +300,21 @@ Fleuretをお楽しみください。";
         }
 
         WallStop();
+
+        // explode
+        switch (hs)
+        {
+            case HittingState.TipToTip:
+                Explode(((t0 + t1) / 2).Embed(), relSpeed);
+                break;
+            case HittingState.Tip0ToBar1:
+                Explode(tip0tobar1.nearest.Embed(), relSpeed);
+                break;
+            case HittingState.Tip1ToBar0:
+                Explode(tip1tobar0.nearest.Embed(), relSpeed);
+                break;
+        }
+
 
         // gameset?
         //if (state == TutorialState.Foin)
@@ -380,5 +421,16 @@ Fleuretをお楽しみください。";
         return new PointToSegmentInfo(distance, ratio, nearest);
 
     }
+
+    void Explode(Vector3 v_, float size_)
+    {
+        size_ *= 1f;
+        GameObject go = Instantiate(Resources.Load("Explosions/Flash02"), v_, Quaternion.identity) as GameObject;
+        //go.particleSystem.startSpeed = size_;
+        go.particleSystem.startSize = size_;
+        Destroy(go, 3);
+
+    }
+
 
 }

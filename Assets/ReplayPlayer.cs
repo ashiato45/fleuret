@@ -7,6 +7,7 @@ public class ReplayPlayer : MonoBehaviour {
     System.IO.StreamReader[] sr;
     bool end = false;
     bool playfromfile = false;
+    public HitSound sound;
 
     void Play()
     {
@@ -251,6 +252,20 @@ public class ReplayPlayer : MonoBehaviour {
                     swords[1].velocity = Vector2.zero;
                 }
                 break;
+        }
+
+        // sound
+        if (hs == HittingState.Tip0ToBar1 || hs == HittingState.Tip1ToBar0 || hs == HittingState.TipToTip)
+        {
+            //UnityEngine.Debug.Log(relSpeed);
+            if (relSpeed > 0.1)
+            {
+                sound.strong.Play();
+            }
+            else
+            {
+                sound.weak.Play();
+            }
         }
 
         // embedding recover

@@ -57,8 +57,10 @@
     <Compile Include="Assets\ColorSet.cs" />
     <Compile Include="Assets\Constants.cs" />
     <Compile Include="Assets\Credit.cs" />
+    <Compile Include="Assets\EscQuit.cs" />
     <Compile Include="Assets\Extension.cs" />
     <Compile Include="Assets\HitList.cs" />
+    <Compile Include="Assets\HitSound.cs" />
     <Compile Include="Assets\IPAPageSender.cs" />
     <Compile Include="Assets\InputControl.cs" />
     <Compile Include="Assets\InputNotifier.cs" />
