@@ -425,7 +425,7 @@ public class ReplayPlayer : MonoBehaviour {
         size_ *= 1f;
         GameObject go = Instantiate(Resources.Load("Explosions/Flash02"), v_, Quaternion.identity) as GameObject;
         //go.particleSystem.startSpeed = size_;
-        go.particleSystem.startSize = size_;
+        go.GetComponent<ParticleSystem>().startSize = size_;
         Destroy(go, 3);
 
     }

@@ -21,6 +21,8 @@ public class Menu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Application.targetFrameRate = 30;
+
         SaveDataManager.Load();
 
         state = CursorState.Ready;

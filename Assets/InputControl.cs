@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets.CrossPlatformInput;
 
 public enum InputDevice
 {
@@ -26,6 +27,8 @@ public class InputControl
     public static Vector2 getPower()
     {
         Vector2 power = new Vector2(0, 0);
+
+		return getPowerVirtualStick ();
 
         if (Input.GetJoystickNames().Length > 0)
         {
@@ -141,6 +144,18 @@ public class InputControl
         return power;
     }
 
+	public static Vector2 getPowerVirtualStick()
+	{
+		Vector2 power = Vector2.zero;
+
+		power.x = CrossPlatformInputManager.GetAxis ("Horizontal");
+		power.y = CrossPlatformInputManager.GetAxis ("Vertical");
+
+		power = normalizeStick (power);
+
+		return power;
+	}
+
     public static Vector2 getPowerStickRight()
     {
         Vector2 power = Vector2.zero;
@@ -157,6 +172,8 @@ public class InputControl
 
     public static bool getOK()
     {
+		return CrossPlatformInputManager.GetButtonDown ("Jump");
+
         if (Input.GetJoystickNames().Length > 0)
         {
             
@@ -169,6 +186,8 @@ public class InputControl
 
     public static bool getCancel()
     {
+		return CrossPlatformInputManager.GetButtonDown ("Cancel");
+
         if (Input.GetJoystickNames().Length > 0)
         {
             return (Input.GetButtonDown("Fire2") || Input.GetKey(KeyCode.X));
